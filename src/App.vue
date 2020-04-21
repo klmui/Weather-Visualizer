@@ -19,14 +19,17 @@
         <div class="location-box">
           <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
+          <div class="time"> {{ weather.timezone }} </div>
+          
           
           <div class="weather-box">
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
-            <div class="weather">{{ weather.weather[0].main }}</div>
+            <!-- <div class="weather">{{ weather.weather[0].main }}</div> -->
+            <div class="icon">icon</div>
           </div>
         </div>
       </div>
-      <div class="weather-wrap" v-else>
+      <div class="weather-wrap" v-else-if="!locationFound">
         <div class="search-box">
           <input 
             type="text" 
@@ -51,9 +54,27 @@ export default {
       api_key: '620cb8cc343201300b251cb1dcb52d5e',
       url_base: 'https://api.openweathermap.org/data/2.5/',
       query: '',
-      weather: {}
+      weather: {},
+      locationFound: navigator.geolocation
     }
   }, 
+  // On page load
+  mounted:function() {
+    let long;
+    let lat;
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        // Fetch weather
+        long = position.coords.longitude;
+        lat = position.coords.latitude;
+        fetch(`${this.url_base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${this.api_key}`)
+            .then(res => {
+              return res.json();
+            }).then(this.setResults);
+      });
+    }
+  },
   methods: {
     fetchWeather(e) {
       if (e.key == "Enter") {
@@ -93,6 +114,8 @@ export default {
 
 body {
   font-family: 'montserrat', sans-serif;
+  z-index: -1;
+  background: linear-gradient(rgba(47,150,163), rgba(48,62,143));
 }
 
 #app {
@@ -148,10 +171,13 @@ main {
 
 .location-box .location {
   color: #FFF;
-  font-size: 32px;
-  font-weight: 500;
   text-align: center;
-  text-shadow: 1px 3px rgba(0, 0, 0, 0.25);
+  margin-bottom: 5px;
+
+  font-size: 40px;
+  font-weight: 700;
+  font-style: italic;
+  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
 
 .location-box .date {
