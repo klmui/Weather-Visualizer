@@ -21,7 +21,7 @@
         </div>
         <div class="location-box">
           <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
-          <div class="date">{{ dateBuilder() }}  <canvas id="skycon" width="32" height="32"></canvas></div>
+          <div class="date" style="display: flex; align-items:center; justify-content: space-around;"><span style="">{{ dateBuilder() }}</span> <canvas id="skycon" width="32" height="32"></canvas></div>
           <!-- <div class="time"> {{ weather.timezone }} </div> -->
           
           
@@ -265,8 +265,7 @@ main {
   color: #FFF;
   font-size: 20px;
   font-weight: 300;
-  font-style: italic;
-  text-align: center;
+  font-style: italic;  
 }
 
 .weather-box {
