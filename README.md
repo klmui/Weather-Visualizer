@@ -1,6 +1,5 @@
 # Weather Visualizer
 This app was created using Vue.js! It gets your current location and displays the weather for it. The background and icons change according to the weather at your location! Please note that if you want the animated Skycon to appear, you will have to search for your location (I am trying to fix this bug).
-
 Run the app at: https://klmui.com/Weather-Visualizer/
 
 ## Project setup
@@ -40,6 +39,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Deploying
 - checkout to gh-pages
+- git merge master
 - yarn build
 - git add dist && git commit -m "Initial dist subtree commit"
 - git subtree push --prefix dist origin gh-pages
