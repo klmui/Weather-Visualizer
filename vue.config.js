@@ -1,3 +1,5 @@
 module.exports = {
-  publicPath: '/Weather-Visualizer/'
+  publicPath: process.env.NODE_ENV === 'production'
+    ? '/Weather-Visualizer/'
+    : '/'
 }
