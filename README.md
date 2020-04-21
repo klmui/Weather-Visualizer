@@ -30,4 +30,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - v-model is for two-way binding
 - v-on
 - v-if
+- v-else-if
+- v-else
+- mounted is on load
 - :class="Javascript logic here"

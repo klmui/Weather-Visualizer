@@ -1,5 +1,5 @@
 <template>
-  <!-- This is a query for binding the class -->
+  <!-- This is a colon shorthand binding the class -->
   <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 60 ? 
     'warm' : ''">
     <main>
@@ -19,17 +19,33 @@
         <div class="location-box">
           <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
-          <div class="time"> {{ weather.timezone }} </div>
+          <!-- <div class="time"> {{ weather.timezone }} </div> -->
           
           
           <div class="weather-box">
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
             <!-- <div class="weather">{{ weather.weather[0].main }}</div> -->
-            <div class="icon">icon</div>
+            <div class="iconClass">
+              <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`">
+            </div>
           </div>
         </div>
       </div>
       <div class="weather-wrap" v-else-if="!locationFound">
+        <div class="search-box">
+          <input 
+            type="text" 
+            class="search-bar" 
+            placeholder="Search..."
+            v-model="query"
+            @keypress="fetchWeather"
+          />
+          <!-- Used two-way binding above using v-model -->
+          <!-- {{ query }} -->
+        </div>
+      </div>
+      <div class="weather-wrap" v-else>
+        <h2 style="color: #FFF; margin-bottom: 10px;">Please refine your search.</h2>
         <div class="search-box">
           <input 
             type="text" 
@@ -58,8 +74,8 @@ export default {
       locationFound: navigator.geolocation
     }
   }, 
-  // On page load
   mounted:function() {
+    // On page load
     let long;
     let lat;
 
@@ -202,17 +218,14 @@ main {
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
   background-color: rgba(255, 255, 255, 0.25);
   border-radius: 16px;
-  margin: 30px 0px;
+  margin: 30px 15px 0px 0px;
 
   box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
 
-.weather-box .weather {
-  color: #FFF;
-  font-size: 48px;
-  font-weight: 700;
-  font-style: italic;
-  text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+#icon {
+  width: 150px;
+  height: 150px;
 }
 
 .weather-wrap {
