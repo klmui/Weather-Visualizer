@@ -21,16 +21,19 @@
         </div>
         <div class="location-box">
           <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
-          <div class="date" style="display: flex; align-items:center; justify-content: space-around;"><span style="">{{ dateBuilder() }}</span> <canvas id="skycon" width="32" height="32"></canvas></div>
+          <div class="date" style="display: flex; align-items:center; justify-content: space-around;">
+            <span style="">{{ dateBuilder() }}</span> 
+            <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`"/>
+          </div>
           <!-- <div class="time"> {{ weather.timezone }} </div> -->
           
           
           <div class="weather-box">
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
             <!-- <div class="weather">{{ weather.weather[0].main }}</div> -->
-             <div class="iconClass">
-              <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`"/>
-            </div>
+             <div>
+              <canvas style="margin-top: 15px;" id="skycon" width="90" height="90"></canvas>
+             </div>
           </div>
         </div>
       </div>
@@ -84,6 +87,7 @@ export default {
     let long;
     let lat;
 
+    for (var i = 0; i < 2; i++) {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         // var script = document.createElement('script');
@@ -106,7 +110,7 @@ export default {
           }
         };
      }
-  },
+  }},
   methods: {
     fetchWeather(e) {
       if (e.key == "Enter") {
@@ -288,8 +292,8 @@ main {
 }
 
 #icon {
-  width: 150px;
-  height: 150px;
+  width: 35px;
+  height: 35px;
 }
 
 .weather-wrap {
