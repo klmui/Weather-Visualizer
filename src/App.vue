@@ -71,7 +71,7 @@ export default {
       url_base: 'https://api.openweathermap.org/data/2.5/',
       query: '',
       weather: {},
-      locationFound: navigator.geolocation
+      locationFound: null
     }
   }, 
   mounted:function() {
@@ -82,13 +82,18 @@ export default {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         // Fetch weather
+        this.locationFound = true;
         long = position.coords.longitude;
         lat = position.coords.latitude;
         fetch(`${this.url_base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${this.api_key}`)
             .then(res => {
               return res.json();
             }).then(this.setResults);
-      });
+      }), (error) => {
+        if (error.code == error.PERMISSION_DENIED) {
+          this.locationFound = false;
+        }
+      };
     }
   },
   methods: {
