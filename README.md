@@ -27,3 +27,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### My App Notes
 - Create Vue app: "vue create 'app-name'
 - Start: 'yarn serve'
+- v-model is for two-way binding
+- v-on
+- v-if
