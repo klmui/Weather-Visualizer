@@ -23,11 +23,14 @@
           
           
           <div class="weather-box">
+            <div>
+              <canvas id="skycon" width="128" height="128"></canvas>
+            </div>
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
             <!-- <div class="weather">{{ weather.weather[0].main }}</div> -->
-            <div class="iconClass">
+            <!-- <div class="iconClass">
               <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`">
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -62,6 +65,7 @@
   </div>
 </template>
 
+<script src="https://rawgithub.com/darkskyapp/skycons/master/skycons.js"></script>    
 <script>
 export default {
   name: 'App',
@@ -71,7 +75,8 @@ export default {
       url_base: 'https://api.openweathermap.org/data/2.5/',
       query: '',
       weather: {},
-      locationFound: null
+      locationFound: null,
+      skycons: new Skycons({"color":"orange"})
     }
   }, 
   mounted:function() {
@@ -81,6 +86,10 @@ export default {
 
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
+        // var script = document.createElement('script');
+        // script.src = "https://rawgithub.com/darkskyapp/skycons/master/skycons.js";
+        // document.getElementsByTagName('head')[0].appendChild(script);
+
         // Fetch weather
         this.locationFound = true;
         long = position.coords.longitude;
@@ -88,13 +97,15 @@ export default {
         fetch(`${this.url_base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${this.api_key}`)
             .then(res => {
               return res.json();
-            }).then(this.setResults);
-      }), (error) => {
-        if (error.code == error.PERMISSION_DENIED) {
-          this.locationFound = false;
-        }
-      };
-    }
+            }).then(res => {
+              this.setResults(res);
+            });
+        }), (error) => {
+          if (error.code == error.PERMISSION_DENIED) {
+            this.locationFound = false;
+          }
+        };
+     }
   },
   methods: {
     fetchWeather(e) {
@@ -109,6 +120,49 @@ export default {
 
     setResults(results) {
       this.weather = results;
+      // Set up skycon
+      let time = new Date().getHours();
+      let weatherMain = this.weather.weather[0].main;
+      console.log(weatherMain.toLowerCase());
+
+      var htmlToAdd = '';
+      switch(weatherMain.toLowerCase()) {
+        case "clouds":
+          if (time >= 19 || time <= 4) {
+            this.skycons.set("skycon", Skycons.PARTLY_CLOUDY_NIGHT);
+          } else {
+            this.skycons.set("skycon", Skycons.CLOUDY);
+          }
+          this.skycons.play();
+          break;
+        case "rain":
+          this.skycons.set("skycon", Skycons.RAIN);
+          this.skycons.play();
+          break;
+        case "drizzle":
+          this.skycons.set("skycon", Skycons.RAIN);
+          this.skycons.play();
+          break;
+        case "thunderstorm":
+            this.skycons.set("skycon", Skycons.RAIN);
+            this.skycons.play();
+            break;
+        case "snow":
+          this.skycons.set("skycon", Skycons.SNOW);
+          this.skycons.play();
+          break;
+        case "clear": 
+          if (time >= 19 || time <= 4) {
+            this.skycons.set("skycon", Skycons.CLEAR_NIGHT);
+          } else {
+            this.skycons.set("skycon", Skycons.CLEAR_DAY);
+          }
+          this.skycons.play();
+          break;
+        default:
+            this.skycons.set("skycon", Skycons.WIND);
+            this.skycons.play();
+      }
     },
     dateBuilder() {
       let d = new Date();
@@ -223,7 +277,7 @@ main {
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
   background-color: rgba(255, 255, 255, 0.25);
   border-radius: 16px;
-  margin: 30px 15px 0px 0px;
+  margin: 10px 0px;
 
   box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
