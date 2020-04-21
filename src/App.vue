@@ -3,19 +3,19 @@
   <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 60 ? 
     'warm' : ''">
     <main>
-      <div class="search-box">
-        <input 
-          type="text" 
-          class="search-bar" 
-          placeholder="Search..."
-          v-model="query"
-          @keypress="fetchWeather"
-        />
-        <!-- Used two-way binding above using v-model -->
-        <!-- {{ query }} -->
-      </div>
 
       <div class="weather-wrap" v-if="typeof weather.main != 'undefined'">
+        <div class="search-box">
+          <input 
+            type="text" 
+            class="search-bar" 
+            placeholder="Search..."
+            v-model="query"
+            @keypress="fetchWeather"
+          />
+          <!-- Used two-way binding above using v-model -->
+          <!-- {{ query }} -->
+        </div>
         <div class="location-box">
           <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
           <div class="date">{{ dateBuilder() }}</div>
@@ -24,6 +24,19 @@
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
             <div class="weather">{{ weather.weather[0].main }}</div>
           </div>
+        </div>
+      </div>
+      <div class="weather-wrap" v-else>
+        <div class="search-box">
+          <input 
+            type="text" 
+            class="search-bar" 
+            placeholder="Search..."
+            v-model="query"
+            @keypress="fetchWeather"
+          />
+          <!-- Used two-way binding above using v-model -->
+          <!-- {{ query }} -->
         </div>
       </div>
     </main>
@@ -84,9 +97,9 @@ body {
 
 #app {
   background-image: url('./assets/cold-bg.jpg');
-  background-size: cover;
-  /* background-repeat: no-repeat; */
-  background-position: bottom;
+  /* background-size: cover; */
+  background-repeat: no-repeat;
+  background-position: center;
   transition: 0.4s;
 }
 
@@ -99,6 +112,7 @@ main {
   padding: 25px;
 
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.75)) !important;
+
 }
 
 .search-box {
@@ -123,6 +137,7 @@ main {
   background-color: rgba(255, 255, 255, 0.5);
   border-radius: 0px 16px 0px 16px;
   transition: 0.4s;
+
 }
 
 .search-box .search-bar:focus {
@@ -172,5 +187,13 @@ main {
   font-weight: 700;
   font-style: italic;
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
+}
+
+.weather-wrap {
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  top: 50%;
+  transform: translate(-50%, -50%)
 }
 </style>
