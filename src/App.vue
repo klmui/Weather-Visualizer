@@ -1,5 +1,7 @@
 <template>
-  <div id="app">
+  <!-- This is a query for binding the class -->
+  <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 60 ? 
+    'warm' : ''">
     <main>
       <div class="search-box">
         <input 
@@ -86,6 +88,10 @@ body {
   /* background-repeat: no-repeat; */
   background-position: bottom;
   transition: 0.4s;
+}
+
+#app.warm {
+  background-image: url('./assets/warm-bg.jpg')
 }
 
 main {
