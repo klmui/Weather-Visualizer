@@ -24,7 +24,7 @@
           
           <div class="weather-box">
             <div class="iconClass">
-              <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`">
+              <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`"/>
             </div>
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
             <!-- <div class="weather">{{ weather.weather[0].main }}</div> -->
