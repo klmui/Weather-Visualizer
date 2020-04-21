@@ -4,6 +4,18 @@
       <div class="search-box">
         <input type="text" class="search-bar" placeholder="Search..."/>
       </div>
+
+      <div class="weather-wrap">
+        <div class="location-box">
+          <div class="location">Appleton, WI</div>
+          <div class="date">Tuesday 21 April 2020</div>
+          
+          <div class="weather-box">
+            <div class="temp">9°c</div>
+            <div class="weather">Rain</div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </template>
@@ -33,6 +45,7 @@ body {
 #app {
   background-image: url('./assets/cold-bg.jpg');
   background-size: cover;
+  /* background-repeat: no-repeat; */
   background-position: bottom;
   transition: 0.4s;
 }
