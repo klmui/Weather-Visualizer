@@ -22,3 +22,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+
+### My App Notes
+- Create Vue app: "vue create 'app-name'
+- Start: 'yarn serve'
