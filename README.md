@@ -37,3 +37,9 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - v-else
 - mounted is on load
 - :class="Javascript logic here"
+
+### Deploying
+- checkout to gh-pages
+- yarn build
+- git add dist && git commit -m "Initial dist subtree commit"
+- git subtree push --prefix dist origin gh-pages

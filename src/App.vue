@@ -15,6 +15,9 @@
           />
           <!-- Used two-way binding above using v-model -->
           <!-- {{ query }} -->
+        <div style="margin-top: 5px; text-align: center;">
+          <p style="font-size: 0.6em;">Enter the "city, state" e.g. "madison, wisconsin"</p>
+        </div>
         </div>
         <div class="location-box">
           <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
@@ -23,11 +26,11 @@
           
           
           <div class="weather-box">
-            <div class="iconClass">
-              <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`">
-            </div>
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
             <!-- <div class="weather">{{ weather.weather[0].main }}</div> -->
+             <div class="iconClass">
+              <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`"/>
+            </div>
           </div>
         </div>
       </div>
@@ -108,7 +111,13 @@ export default {
     fetchWeather(e) {
       if (e.key == "Enter") {
         // fetch() is from JS
-        fetch(`${this.url_base}weather?q=${this.query}&units=imperial&APPID=${this.api_key}`)
+        let city = '';
+        let state = '';
+        if (this.query.split(",").length == 2) {
+          city = this.query.split(",")[0].trim();
+          state = this.query.split(",")[1].trim();
+        }
+        fetch(`${this.url_base}weather?q=${state},${city}&units=imperial&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
@@ -212,7 +221,7 @@ main {
 
 .search-box {
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .search-box .search-bar {
@@ -274,7 +283,7 @@ main {
   text-shadow: 3px 6px rgba(0, 0, 0, 0.25);
   background-color: rgba(255, 255, 255, 0.25);
   border-radius: 16px;
-  margin: 10px 0px;
+  margin: 20px 0px 0px 0px;
 
   box-shadow: 3px 6px rgba(0, 0, 0, 0.25);
 }
