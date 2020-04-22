@@ -20,7 +20,8 @@
         </div>
         </div>
         <div class="location-box">
-          <div class="location">{{ weather.name }}, {{ weather.sys.country }}</div>
+          <div class="location" v-if="city !== ''">{{ this.capitalizeFirstLetter(city)}}, {{ weather.sys.country }}</div>
+          <div class="location" v-else>{{  weather.name  }}, {{ weather.sys.country }}</div>
           <div class="date" style="display: flex; align-items:center; justify-content: space-around;">
             <span style="">{{ dateBuilder() }}</span> 
             <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`"/>
@@ -85,7 +86,9 @@ export default {
       query: '',
       weather: {},
       locationFound: null,
-      skycons: new Skycons({"color":"orange"})
+      skycons: new Skycons({"color":"orange"}),
+      city: '',
+      state: ''
     }
   }, 
   mounted:function() {
@@ -122,13 +125,11 @@ export default {
       for (var i = 0; i < 2; i++) {
       if (e.key == "Enter") {
         // fetch() is from JS
-        let city = '';
-        let state = '';
         if (this.query.split(",").length == 2) {
-          city = this.query.split(",")[0].trim();
-          state = this.query.split(",")[1].trim();
+          this.city = this.query.split(",")[0].trim();
+          this.state = this.query.split(",")[1].trim();
         }
-        fetch(`${this.url_base}weather?q=${state},${city}&units=imperial&APPID=${this.api_key}`)
+        fetch(`${this.url_base}weather?q=${this.state},${this.city}&units=imperial&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
@@ -193,6 +194,9 @@ export default {
       let year = d.getFullYear();
 
       return `${day} ${date} ${month} ${year}`
+    },
+    capitalizeFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
     }
   }
 }
