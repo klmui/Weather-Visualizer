@@ -48,6 +48,9 @@
           />
           <!-- Used two-way binding above using v-model -->
           <!-- {{ query }} -->
+        <div style="margin-top: 5px; text-align: center;">
+          <p style="font-size: 0.6em;">Enter the "city, state" e.g. "madison, wisconsin"</p>
+        </div>
         </div>
       </div>
       <div class="weather-wrap" v-else>
@@ -62,6 +65,9 @@
           />
           <!-- Used two-way binding above using v-model -->
           <!-- {{ query }} -->
+        <div style="margin-top: 5px; text-align: center;">
+          <p style="font-size: 0.6em;">Enter the "city, state" e.g. "madison, wisconsin"</p>
+        </div>
         </div>
       </div>
     </main>
@@ -121,6 +127,9 @@ export default {
           city = this.query.split(",")[0].trim();
           state = this.query.split(",")[1].trim();
         }
+        console.log(city);
+        console.log(state);
+        console.log(`${this.url_base}weather?q=${state},${city}&units=imperial&APPID=${this.api_key}`);
         fetch(`${this.url_base}weather?q=${state},${city}&units=imperial&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
