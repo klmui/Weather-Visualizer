@@ -119,6 +119,7 @@ export default {
   }},
   methods: {
     fetchWeather(e) {
+      for (var i = 0; i < 2; i++) {
       if (e.key == "Enter") {
         // fetch() is from JS
         let city = '';
@@ -127,13 +128,11 @@ export default {
           city = this.query.split(",")[0].trim();
           state = this.query.split(",")[1].trim();
         }
-        console.log(city);
-        console.log(state);
-        console.log(`${this.url_base}weather?q=${state},${city}&units=imperial&APPID=${this.api_key}`);
         fetch(`${this.url_base}weather?q=${state},${city}&units=imperial&APPID=${this.api_key}`)
           .then(res => {
             return res.json();
           }).then(this.setResults);
+      }
       }
     },
 
