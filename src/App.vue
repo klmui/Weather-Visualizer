@@ -13,8 +13,6 @@
             v-model="query"
             @keypress="fetchWeather"
           />
-          <!-- Used two-way binding above using v-model -->
-          <!-- {{ query }} -->
         <div style="margin-top: 5px; text-align: center;">
           <p style="font-size: 0.6em;">Enter the "city, state" e.g. "madison, wisconsin"</p>
         </div>
@@ -26,12 +24,9 @@
             <span style="">{{ dateBuilder() }}</span> 
             <img id="icon" :src="`http://openweathermap.org/img/wn/` + weather.weather[0].icon + `@2x.png`"/>
           </div>
-          <!-- <div class="time"> {{ weather.timezone }} </div> -->
-          
           
           <div class="weather-box">
             <div class="temp">{{ Math.round(weather.main.temp) }}°f</div>
-            <!-- <div class="weather">{{ weather.weather[0].main }}</div> -->
              <div>
               <canvas style="margin-top: 15px;" id="skycon" width="90" height="90"></canvas>
              </div>
@@ -47,8 +42,6 @@
             v-model="query"
             @keypress="fetchWeather"
           />
-          <!-- Used two-way binding above using v-model -->
-          <!-- {{ query }} -->
         <div style="margin-top: 5px; text-align: center;">
           <p style="font-size: 0.6em;">Enter the "city, state" e.g. "madison, wisconsin"</p>
         </div>
@@ -64,8 +57,6 @@
             v-model="query"
             @keypress="fetchWeather"
           />
-          <!-- Used two-way binding above using v-model -->
-          <!-- {{ query }} -->
         <div style="margin-top: 5px; text-align: center;">
           <p style="font-size: 0.6em;">Enter the "city, state" e.g. "madison, wisconsin"</p>
         </div>
@@ -97,43 +88,40 @@ export default {
     let lat;
 
     for (var i = 0; i < 2; i++) {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        // var script = document.createElement('script');
-        // script.src = "https://rawgithub.com/darkskyapp/skycons/master/skycons.js";
-        // document.getElementsByTagName('head')[0].appendChild(script);
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
 
-        // Fetch weather
-        this.locationFound = true;
-        long = position.coords.longitude;
-        lat = position.coords.latitude;
-        fetch(`${this.url_base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${this.api_key}`)
-            .then(res => {
-              return res.json();
-            }).then(res => {
-              this.setResults(res);
-            });
-        }), (error) => {
-          if (error.code == error.PERMISSION_DENIED) {
-            this.locationFound = false;
-          }
-        };
-     }
+          // Fetch weather
+          this.locationFound = true;
+          long = position.coords.longitude;
+          lat = position.coords.latitude;
+          fetch(`${this.url_base}weather?lat=${lat}&lon=${long}&units=imperial&APPID=${this.api_key}`)
+              .then(res => {
+                return res.json();
+              }).then(res => {
+                this.setResults(res);
+              });
+          }), (error) => {
+            if (error.code == error.PERMISSION_DENIED) {
+              this.locationFound = false;
+            }
+          };
+      }
   }},
   methods: {
     fetchWeather(e) {
       for (var i = 0; i < 2; i++) {
-      if (e.key == "Enter") {
-        // fetch() is from JS
-        if (this.query.split(",").length == 2) {
-          this.city = this.query.split(",")[0].trim();
-          this.state = this.query.split(",")[1].trim();
+        if (e.key == "Enter") {
+          // fetch() is from JS
+          if (this.query.split(",").length == 2) {
+            this.city = this.query.split(",")[0].trim();
+            this.state = this.query.split(",")[1].trim();
+          }
+          fetch(`${this.url_base}weather?q=${this.state},${this.city}&units=imperial&APPID=${this.api_key}`)
+            .then(res => {
+              return res.json();
+            }).then(this.setResults);
         }
-        fetch(`${this.url_base}weather?q=${this.state},${this.city}&units=imperial&APPID=${this.api_key}`)
-          .then(res => {
-            return res.json();
-          }).then(this.setResults);
-      }
       }
     },
 

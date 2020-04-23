@@ -26,7 +26,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
-### My App Notes
+### My Vue Notes
 - Create Vue app: "vue create 'app-name'
 - Start: 'yarn serve'
 - v-model is for two-way binding
@@ -34,6 +34,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - v-if
 - v-else-if
 - v-else
+- v-model is for two-way binding
+- {{ "Can call any functions or use data from below here" }}
 - mounted is on load
 - :class="Javascript logic here"
 
