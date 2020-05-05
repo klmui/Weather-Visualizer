@@ -1,6 +1,6 @@
 # Weather Visualizer
 This app was created using Vue.js! It gets your current location and displays the weather for it. The background and icons change according to the weather at your location!
-Run the app at: https://klmui.com/Weather-Visualizer/
+Run the app at: https://weather-visualizer.netlify.app/
 
 ## Project setup
 ```
